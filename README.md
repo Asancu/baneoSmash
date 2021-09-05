@@ -1,5 +1,7 @@
 # BaneoSmash
 
+![image](https://user-images.githubusercontent.com/21162720/132111431-c339ddb1-cae2-4312-a18e-00428b1bd2bf.png)
+
 Este prototipo es un concepto para una aplicación web cuya finalidad es la de simplificar el procedimiento de ban de los escenarios competitivos del reglamento español de Super Smash Bros. Ultimate de 2021. Ese es el único propósito. No se tiene planteado profundizar en mucho más a favor de una funcionalidad básica.
 
 El diseño es completamente __responsive__. Se ha intentado facilitar la portabilidad para aquellos que quieran jugar en torneos presenciales.
