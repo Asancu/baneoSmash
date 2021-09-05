@@ -1,5 +1,25 @@
 # BaneoSmash
 
+Este es un prototipo para una aplicación web cuya utilidad es la de simplificar los baneos de los escenarios competitivos del reglamento español de Super Smash Bros. Ultimate de 2021.
+
+Aún queda mucho por mejorar, y el código es un desastre a fecha del 5 de septiembre de 2021. 
+
+Os lo advierto: **más de uno os llevaréis las manos a la cabeza.**
+
+## Modo de uso
+
+El usuario final debería abrir la aplicación accediendo a [esta web.](https://smashbans.netlify.app/) 
+
+El Jugador 1 debe seleccionar aquellos escenarios en los que se prohiba jugar. De acuerdo al reglamento, son tres.
+El segundo jugador banea otros cuatro.
+Finalmente, el primer jugador decidirá dónde se jugará.
+
+Al acabar, hay un botón que te permitirá reiniciar todos los parámetros, y otro que ayudará al jugador más novato a entender el procedimiento de los bans.
+
+A continuación dejo por aquí la información generada por defecto por Angular sobre cómo ejecutar el proyecto de forma local:
+
+
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.0.
 
 ## Development server
