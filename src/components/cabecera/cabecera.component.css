@@ -1,0 +1,22 @@
+.espaciado {
+    flex: 1 1 auto;
+  }
+
+a:link {
+    color:white;
+}
+
+a:visited {
+    color:white;
+}
+
+a:hover {
+    color:blue;
+    transition:522ms
+}
+
+a {
+    color:white;
+    transition:522ms;
+}
+
