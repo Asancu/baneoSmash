@@ -1,0 +1,54 @@
+<div style="margin: 1%;">
+    <h2>¡Elige los escenarios que se banearán!</h2>
+
+    <p>{{this.jugador}}, banea 
+        <span *ngIf="contador > 0">{{contador}} escenario(s).</span> 
+        <span *ngIf="contador <= 0 && contador2 > 0">{{contador2}} escenario(s).</span>
+        <span *ngIf="contador2 <= 0">el escenario restante.</span>
+    </p>
+
+    <div class="mb-3" *ngIf="this.contador < 0 && this.contador2 < 0">
+        <span><strong>Se jugará en...</strong></span>
+        <div *ngFor="let escenarios of listaStages">
+            <h3 *ngIf="!escenarios.isBan"><u>{{escenarios.nombre}}</u></h3>
+        </div>
+        <h3 *ngIf="todoIsBan()">Illo, a lo mejor pretendes que no se juegue. ¿Qué haces? Pulsa en <strong>Reiniciar todo</strong>, anda.</h3>
+    </div>
+
+
+    <button mat-raised-button
+            matTooltip="Nueva ronda, nuevos bans."
+            matTooltipClass="bg-dark"
+            color="primary" 
+            class="mb-2" 
+            (click)="reiniciarTodo()">
+        <mat-icon>autorenew</mat-icon> Reiniciar todo
+    </button>
+ 
+    <button 
+        mat-raised-button 
+        matTooltip="Se te explica cómo va la movida."
+        matTooltipClass="bg-dark"
+        color="accent"
+        (click)="abrirProcedimiento()">
+        <mat-icon>help_outline</mat-icon> ¿Cómo banear?
+    </button>
+
+    <mat-grid-list cols="3" rowHeight="2:1" (click)="cuentaAtras()">
+        
+        <mat-grid-tile *ngFor="let stage of listaStages" [matTooltip]="stage.nombre" (click)="banearStage(stage.id)">
+            
+            <img src="assets/img/tachado.png" style="position:absolute; z-index:1;" class="centrar" [class]=
+            "
+            {
+                'oculto' : !stage.isBan
+            }
+            "
+            />            
+            <img [src]="stage.archivoImg" style="width:100%">
+
+        </mat-grid-tile>
+        
+    </mat-grid-list>
+
+</div>            
