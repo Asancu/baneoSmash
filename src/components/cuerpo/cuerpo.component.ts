@@ -17,110 +17,78 @@ export class CuerpoComponent implements OnInit {
   public isBaneadosTurno1:boolean;
   public isBaneadosTurno2:boolean;
 
-  public isBanBattlefield:boolean;
-  public isBanDestinoFinal:boolean;
-  public isBanEstadioPokemon2:boolean;
-  public isBanKalos:boolean;
-  public isBanPuebloSmash:boolean;
-  public isBanSistemaLylat:boolean;
-  public isBanSmallBattlefield:boolean;
-  public isBanTownAndCity:boolean;
-  public isBanYoshiStory:boolean;
+  public availableStages : any[];
+
+  private initialAvailableStages = [
+    { id: "BF", name: "Battlefield", banned: false, image: "assets/img/escenarios/battlefield.png" },
+    { id: "DF", name: "Destino Final", banned: false, image: "assets/img/escenarios/destinoFinal.png" },
+    { id: "PS2", name: "Estadio Pokémon 2", banned: false, image: "assets/img/escenarios/estadioPokemon2.jpg" },
+    { id: "KL", name: "Kalos", banned: false, image: "assets/img/escenarios/kalos.jpg" },
+    { id: "PB", name: "Pueblo Smash", banned: false, image: "assets/img/escenarios/puebloSmash.jpg" },
+    { id: "SL", name: "Sistema Lylat", banned: false, image: "assets/img/escenarios/sistemaLylat.jpg" },
+    { id: "SB", name: "Pequeño Campo de Batalla", banned: false, image: "assets/img/escenarios/smallBattlefield.jpg" },
+    { id: "TC", name: "Sobrevolando el Pueblo", banned: false, image: "assets/img/escenarios/townAndCity.png" },
+    { id: "YS", name: "Yoshi's Story", banned: false, image: "assets/img/escenarios/yoshiStory.jpg" }
+  ];
 
   constructor(private _snackBar: MatSnackBar, public dialog: MatDialog) {
+    // Copy initial stages.
+    this.availableStages = this.initialAvailableStages.map(stage => { 
+      return { ...stage } 
+    });
+
     this.duracionEnSegundos = 5;
     this.player = "Jugador 1";
     this.contadorBans = 3;
     this.isBaneadosTurno1 = true;
     this.isBaneadosTurno2 = false;    
-    this.isBanBattlefield = false;
-    this.isBanDestinoFinal = false;
-    this.isBanEstadioPokemon2 = false;
-    this.isBanKalos = false;
-    this.isBanPuebloSmash = false;
-    this.isBanSistemaLylat = false;
-    this.isBanSmallBattlefield = false;
-    this.isBanTownAndCity = false;
-    this.isBanYoshiStory = false;
   }
 
   ngOnInit(): void {
 
   }
 
-  public contador() {
-    console.log(this.contadorBans);
-    // J1 banea
-    this.contadorBans -= 1;
+  public getAvailableStages() {
+    return this.availableStages.filter(stage => stage["banned"] === false);
+  }
 
-    //J2 banea
-    if (this.contadorBans === 0 && this.isBaneadosTurno1) {
-      this.player = "Jugador 2";
-      this.contadorBans = 4;
-      this.isBaneadosTurno2 = true;
-      this.isBaneadosTurno1 = false;
+  public banStage(stageId : string) {
+    const availableStages = this.getAvailableStages().length;
+    if (availableStages < 2) {
+      return;
+    }
+    const stage = this.availableStages.find(stage => stage.id === stageId);
+    stage.banned = true;
+  }
+
+  public getBanStateMessage() : string {
+    const availableStages = this.getAvailableStages().length;
+    let message : string;
+
+    if (availableStages > 6) {
+      message = `Jugador 1, te quedan ${availableStages - 6} escenarios.`;
+    } else if (availableStages > 2) {
+      message = `Jugador 2, te quedan ${availableStages - 2} escenarios.`;
+    } else if (availableStages === 2) {
+      message = "Jugador 1, banea 1 escenario.";
+    } else {
+      message = "Escenario decidido.";
     }
 
-    //J1 banea de vuelta
-    if (this.contadorBans === 0 && this.isBaneadosTurno2) {
-      this.player = "Jugador 1";
-      this.contadorBans = 1;
-      this.contadorBans =- 1;
-    }
-
+    return message;
   }
 
-  public banStageBattlefield() {
-    this.isBanBattlefield = !this.isBanBattlefield;
-  }
-  
-  public banStageDestinoFinal() {
-    this.isBanDestinoFinal = !this.isBanDestinoFinal;
-  }
-
-  
-  public banStageEstadioPokemon2() {
-    this.isBanEstadioPokemon2 = !this.isBanEstadioPokemon2;
-  }
-  
-  public banStageKalos() {
-    this.isBanKalos = !this.isBanKalos;
-  }
-  
-  public banStagePuebloSmash() {
-    this.isBanPuebloSmash = !this.isBanPuebloSmash;
-  }
-  
-  public banStageSistemaLylat() {
-    this.isBanSistemaLylat = !this.isBanSistemaLylat;
-  }
-  
-  public banStageSmallBattlefield() {
-    this.isBanSmallBattlefield = !this.isBanSmallBattlefield;
-  }
-  
-  public banStageTownAndCity() {
-    this.isBanTownAndCity = !this.isBanTownAndCity;
-  }
-
-  public banStageYoshiStory() {
-    this.isBanYoshiStory = !this.isBanYoshiStory;
-  }
-
-  public reiniciarTodo() {
+  public restart() {
     this.player = "Jugador 1";
     this.contadorBans = 3;
     this.isBaneadosTurno1 = true;
     this.isBaneadosTurno2 = false;
-    this.isBanBattlefield = false;
-    this.isBanDestinoFinal = false;
-    this.isBanEstadioPokemon2 = false;
-    this.isBanKalos = false;
-    this.isBanPuebloSmash = false;
-    this.isBanSistemaLylat = false;
-    this.isBanSmallBattlefield = false;
-    this.isBanTownAndCity = false;
-    this.isBanYoshiStory = false;
+
+    console.log(this.initialAvailableStages),
+
+    this.availableStages = this.initialAvailableStages.map(stage => { 
+      return { ...stage } 
+    });
 
     this._snackBar.openFromComponent(AvisoComponent, {
       duration : this.duracionEnSegundos * 1000,

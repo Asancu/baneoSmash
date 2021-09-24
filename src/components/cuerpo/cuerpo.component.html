@@ -1,89 +1,45 @@
 <div style="margin: 1%;">
     <h2>¡Elige los escenarios que se banearán!</h2>
-    <ng-container *ngIf="this.contadorBans > -1">
-        <p>{{player}}, te quedan {{contadorBans}} escenarios.</p>
-    </ng-container>
-
-    <ng-container *ngIf="this.contadorBans < 0">
-        <p>{{player}}, parece que solo queda uno.</p>
-    </ng-container>
-
-    <ng-container *ngIf="this.contadorBans < -1">
-        <p>Escenario decidido.</p>
-    </ng-container>
-
-    <ng-container *ngIf="this.contadorBans < -2">
-        <p>Ya está illo para ya que no quedan escenarios pesao, haz click en Reiniciar todo para volver a banear</p>
+    <ng-container *ngIf="this.getBanStateMessage(); let message;">
+        <p>{{message}}</p>
     </ng-container>
 
     <button mat-raised-button
-            matTooltip="Nueva ronda, nuevos bans."
+            matTooltip="Nueva ronda, nuevos bans"
             matTooltipClass="bg-dark"
             color="primary" 
             class="mb-2" 
-            (click)="reiniciarTodo()">
-    <mat-icon>autorenew</mat-icon> Reiniciar todo
+            (click)="restart()">
+    <mat-icon>autorenew</mat-icon>Reiniciar todo
     </button>
  
     <button 
         mat-raised-button 
-        matTooltip="Se te explica cómo va la movida."
+        matTooltip="Ver explicación"
         matTooltipClass="bg-dark"
         color="accent"
         (click)="abrirProcedimiento()">
-    <mat-icon>help_outline</mat-icon> ¿Cómo banear?
+    <mat-icon>help_outline</mat-icon>¿Cómo banear?
     </button>
 
-    <div class="container-fluid" (click)="contador()">
-        <ng-container *ngIf="!this.isBanBattlefield">
-            <img id="Battlefield" matTooltip="Campo de Batalla" matTooltipClass="text-dark bg-light" (click)="banStageBattlefield()" src="assets/img/escenarios/battlefield.png"/>
-        </ng-container>
-
-        <ng-container *ngIf="!this.isBanDestinoFinal">
-            <img id="Destino Final" matTooltip="Destino Final" matTooltipClass="text-dark bg-light" (click)="banStageDestinoFinal()" src="assets/img/escenarios/destinoFinal.png"/>
-        </ng-container>
-
-        <ng-container *ngIf="!this.isBanEstadioPokemon2">
-            <img id="Estadio Pokemon 2" matTooltip="Estadio Pokémon 2" matTooltipClass="text-dark bg-light" (click)="banStageEstadioPokemon2()" src="assets/img/escenarios/estadioPokemon2.jpg"/>
-        </ng-container>
-
-        <ng-container *ngIf="!this.isBanKalos">
-            <img id="Kalos" matTooltip="Estadio Pokémon de Kalos" matTooltipClass="text-dark bg-light" (click)="banStageKalos()" src="assets/img/escenarios/kalos.jpg"/>
-        </ng-container>
-
-        <ng-container *ngIf="!this.isBanPuebloSmash">
-            <img id="Pueblo Smash" matTooltip="Pueblo Smash" matTooltipClass="text-dark bg-light" (click)="banStagePuebloSmash()" src="assets/img/escenarios/puebloSmash.jpg"/>
-        </ng-container>
-
-        <ng-container *ngIf="!this.isBanSistemaLylat">
-            <img id="Sistema Lylat" matTooltip="Sistema Lylat" matTooltipClass="text-dark bg-light" (click)="banStageSistemaLylat()" src="assets/img/escenarios/sistemaLylat.jpg"/>
-        </ng-container>
-
-        <ng-container *ngIf="!this.isBanSmallBattlefield">
-            <img id="Small Battlefield" matTooltip="Campo de Batalla Pequeño" matTooltipClass="text-dark bg-light" (click)="banStageSmallBattlefield()" src="assets/img/escenarios/smallBattlefield.jpg"/>
-        </ng-container>
-
-        <ng-container *ngIf="!this.isBanTownAndCity">
-            <img id="Town And City" matTooltip="Sobrevolando el Pueblo" matTooltipClass="text-dark bg-light" (click)="banStageTownAndCity()" src="assets/img/escenarios/townAndCity.png"/>
-        </ng-container>
-
-        <ng-container *ngIf="!this.isBanYoshiStory">
-            <img id="Yoshi's Story" matTooltip="Yoshi's Story" matTooltipClass="text-dark bg-light" (click)="banStageYoshiStory()" src="assets/img/escenarios/yoshiStory.jpg"/>        
+    <div class="stage-container container-fluid">
+        <ng-container *ngFor="let stage of this.getAvailableStages()">
+            <img 
+                id={{stage.id}}
+                matTooltip={{stage.name}}
+                matTooltipClass="text-dark bg-light"
+                (click)="banStage(stage.id)"
+                src={{stage.image}}
+            />
         </ng-container>
     </div>
 
     <div class="mt-2">
         <h1><strong>Escenarios disponibles</strong></h1>
-        <mat-list role="list">
-            <mat-list-item role="listitem" *ngIf="!this.isBanBattlefield">Campo de Batalla</mat-list-item>
-            <mat-list-item role="listitem" *ngIf="!this.isBanDestinoFinal">Destino Final</mat-list-item>
-            <mat-list-item role="listitem" *ngIf="!this.isBanEstadioPokemon2">Estadio Pokémon 2</mat-list-item>
-            <mat-list-item role="listitem" *ngIf="!this.isBanKalos">Liga Pokémon de Kalos</mat-list-item>
-            <mat-list-item role="listitem" *ngIf="!this.isBanPuebloSmash">Pueblo Smash</mat-list-item>
-            <mat-list-item role="listitem" *ngIf="!this.isBanSistemaLylat">Sistema Lylat</mat-list-item>
-            <mat-list-item role="listitem" *ngIf="!this.isBanSmallBattlefield">Campo de Batalla Pequeño</mat-list-item>
-            <mat-list-item role="listitem" *ngIf="!this.isBanTownAndCity">Sobrevolando el Pueblo</mat-list-item>
-            <mat-list-item role="listitem" *ngIf="!this.isBanYoshiStory">Yoshi's Story</mat-list-item>
+        <mat-list class="available-stage-list" role="list">
+            <ng-container *ngFor="let stage of this.getAvailableStages()">
+               <mat-list-item class="available-stage" role="listitem">{{stage.name}}</mat-list-item>
+            </ng-container>
         </mat-list>     
     </div>
 
